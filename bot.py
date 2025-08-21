@@ -29,18 +29,16 @@ logging.basicConfig(
 def load_people() -> list:
     """Load player data from people.json, or return empty list if not found."""
     try:
-        with open("people.json", encoding="utf-8") as f:
+        with open("./data/people.json", encoding="utf-8") as f:
             return json.load(f)
     except (FileNotFoundError):
-        with open("people.json", "w"):
-            pass
-
-
-
+        with open("./data/people.json", "w") as f:
+            json.dump([], f)
+            return []
 
 def save_people(data: list) -> None:
     """Save player data to people.json."""
-    with open("people.json", "w", encoding="utf-8") as f:
+    with open("./data/people.json", "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
