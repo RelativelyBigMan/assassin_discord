@@ -6,3 +6,4 @@ RUN pip3 install --break-system-packages -r requirements.txt
 COPY . .
 RUN chmod +x entrypoint.sh
 ENTRYPOINT ["/app/entrypoint.sh"]
+EXPOSE 8080

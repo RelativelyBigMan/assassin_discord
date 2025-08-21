@@ -2,6 +2,8 @@ import logging
 import os
 import random
 import json
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
 import discord
 from discord.ext import commands
 from discord.utils import get
@@ -266,10 +268,21 @@ async def confirm_kill(ctx, *, value: str):
 #     await ctx.author.send("Shutting down...")
 #     await bot.close()
 
+class StatusHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/plain")
+        self.end_headers()
+        self.wfile.write(b"Bot is running")
+
+def run_status_server():
+    server = HTTPServer(("0.0.0.0", 8080), StatusHandler)
+    server.serve_forever()
 
 def main():
     if not TOKEN:
         raise RuntimeError("DISCORD_TOKEN not set in .env")
+    threading.Thread(target=run_status_server, daemon=True).start()
     bot.run(TOKEN)
 
 
