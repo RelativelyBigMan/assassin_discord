@@ -1,0 +1,8 @@
+services:
+  assassin_discord:
+    image: ghcr.io/relativelybigman/assassin_discord
+    build: .
+    volumes:
+    - ./data:/app/data
+    env_file:
+      - .env
