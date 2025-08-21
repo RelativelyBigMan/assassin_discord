@@ -8,7 +8,7 @@ from discord.utils import get
 from dotenv import load_dotenv
 
 
-DOWNLOAD_DIR = "/home/ubuntu/assassin_discord/DOWNLOAD_DIR"
+DOWNLOAD_DIR = "./data/download"
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 PASSWORD = os.getenv("PASSWORD")
@@ -19,7 +19,7 @@ GENERAL_CHANNEL_ID = int(os.getenv("GENERAL_CHANNEL_ID", "0"))
 logging.basicConfig(
     level=logging.INFO,
     handlers=[
-        logging.FileHandler(filename="discord.log", encoding="utf-8", mode="w"),
+        logging.FileHandler(filename="./data/discord.log", encoding="utf-8", mode="w"),
         logging.StreamHandler(),
     ],
     format="%(asctime)s %(levelname)s %(name)s: %(message)s",
