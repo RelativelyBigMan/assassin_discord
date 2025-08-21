@@ -9,7 +9,6 @@ from dotenv import load_dotenv
 
 
 DOWNLOAD_DIR = "/home/ubuntu/assassin_discord/DOWNLOAD_DIR"
-
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 PASSWORD = os.getenv("PASSWORD")
@@ -32,8 +31,11 @@ def load_people() -> list:
     try:
         with open("people.json", encoding="utf-8") as f:
             return json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
-        return []
+    except (FileNotFoundError):
+        with open("people.json", "w"):
+            pass
+
+
 
 
 def save_people(data: list) -> None:
@@ -48,12 +50,12 @@ intents.message_content = True
 intents.members = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
-
+load_people()
 
 
 @bot.event
 async def on_ready():
-    print(f"Logged in as {bot.user.name}")
+    logging.info(f"Logged in as {bot.user.name}")
 
 
 
@@ -61,7 +63,8 @@ async def on_ready():
 async def join(ctx, *, full_name: str):
     """Register a new player."""
     people = load_people()
-    if people[0]["target"]:
+
+    if len(people) > 0 and people[0]["target"]:
         await ctx.author.send("game has started no more registrations")
         return
 
@@ -77,6 +80,7 @@ async def join(ctx, *, full_name: str):
         "status": "alive",
         "username": str(ctx.author),
         "path": None,
+        "user_id": ctx.author.id
     })
     save_people(people)
     logging.info("Added new player: %s", full_name)
@@ -234,8 +238,7 @@ async def confirm_kill(ctx, *, value: str):
                     logging.warning("Could not load kill image: %s", e)
             
             await channel.send(
-                content=f"**{dead_player['fullname']}** has been pegged! @{dead_player['username']}",
-                file=kill_image
+                content=f"**{dead_player['fullname']}** has been pegged! <@{dead_player['user_id']}>"
             )
             
             # Clean up the image file
