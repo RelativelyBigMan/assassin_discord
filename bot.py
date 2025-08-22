@@ -129,7 +129,11 @@ async def start(ctx, *, password: str):
 async def kill(ctx):
     """Submit a kill attempt with an image."""
     people = load_people()
-
+    if not any(p["username"] == str(ctx.author) and p["status"] == "alive" for p in people):
+        await ctx.author.send("You are not registered or already dead.")
+        await ctx.message.delete()
+        return
+    
     if not ctx.message.attachments:
         await ctx.author.send("No image attached.")
         return
