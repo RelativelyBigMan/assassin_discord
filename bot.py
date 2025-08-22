@@ -94,7 +94,6 @@ async def join(ctx, *, full_name: str):
 @bot.command(hidden=True)
 async def super_duper_secret_command(ctx, *, password: str):
 
-    await ctx.message.delete()
 
     if password != PASSWORD:
         await ctx.author.send("Invalid password.")
@@ -106,9 +105,26 @@ async def super_duper_secret_command(ctx, *, password: str):
 
 
 @bot.command(hidden=True)
+async def delete_user(ctx, *, input_val: str):
+    try:
+        password, user = input_val.split(maxsplit=1)
+    except ValueError:
+        await ctx.author.send("Format: `!delete_user <password> <username>`")
+        return
+
+    if password != PASSWORD:
+        await ctx.author.send("Invalid password.")
+        return
+
+    people = load_people()
+    people = [p for p in people if p["username"] != str(user)]
+    save_people(people)
+    logging.info("Deleted player: %s", str(user))
+
+
+@bot.command(hidden=True)
 async def start(ctx, *, password: str):
 
-    await ctx.message.delete()
 
     if password != PASSWORD:
         await ctx.author.send("Invalid password.")
@@ -227,7 +243,6 @@ async def confirm_kill(ctx, *, value: str):
                     dead_player['fullname'], killer['fullname'], killer['target'])
 
     save_people(people)
-    start = True
 
     if GENERAL_CHANNEL_ID:
         try:
