@@ -119,7 +119,7 @@ async def super_duper_secret_command(ctx, *, password: str):
         return
 
     # send file
-    await ctx.author.send(file=discord.File("/data/people.json"))
+    await ctx.author.send(file=discord.File("/app/data/people.json"))
 
 
 
