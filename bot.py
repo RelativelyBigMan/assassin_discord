@@ -87,7 +87,15 @@ async def join(ctx, *, full_name: str):
 
     await ctx.message.delete()
     await ctx.author.send(
-        f"You are registered!\nHere are the rules...\nYour fullname: {full_name}"
+        """You are registered!\nHere are the rules:
+        1.	Each participant is assigned a target. 
+        2.	Each participant becomes a target. 
+        3.	Each participant is given a murder weapon peg with their own callsign. They must use only this peg to murder their victim. 
+        4.	A valid kill is made by pegging (using a clothes peg or clothes pin… you CPP non-compliant monsters…) your victim without them realising it, then taking a sneaky picture and sending it to us by DM. 
+        5.	Once a killing has been verified, the participant will be notified via the bot in the discord chat. Their target will now become their killer’s new target. 
+        6.	Finesse and subterfuge are “of the essence”. Any participant photographed with their own murder peg will automatically leave the game… and go straight to jail without stopping by the start and without getting the €2000. Their peg will have to be returned to the organisers. 
+        7.	Killing is only allowed during day time (between the 7am f* church bells and 22h), and restricted to common zones (i.e. the station, the forest around it and adjacent buildings and the restaurant during breakfast, lunch and dinner times). Murder by clothes peg is strictly prohibited in the dormitories, showers and buildings in the designated silent zone.
+        8.	The total number of participants in the Killer game is unknown… trust nobody."""
     )
 
 
@@ -102,6 +110,7 @@ async def super_duper_secret_command(ctx, *, password: str):
     people = load_people()
     content = "```json\n" + json.dumps(people, indent=2, ensure_ascii=False) + "\n```"
     await ctx.author.send(content)
+
 
 
 @bot.command(hidden=True)
