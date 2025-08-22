@@ -238,7 +238,7 @@ async def confirm_kill(ctx, *, value: str):
                     logging.warning("Could not load kill image: %s", e)
             
             await channel.send(
-                content=f"**{dead_player['fullname']}** has been pegged! <@{dead_player['user_id']}>"
+                content=f"**{dead_player['fullname']}** has been pegged! <@{dead_player['user_id']}>,            (ignore this <@689205836936904706>, <@1170410289682972804>)"
             )
             
             # Clean up the image file
@@ -255,18 +255,6 @@ async def confirm_kill(ctx, *, value: str):
             await ctx.author.send("Kill confirmed but couldn't announce it publicly.")
     else:
         await ctx.author.send("No general channel configured.")
-
-
-# @bot.command(hidden=True)
-# async def close(ctx, *, password: str):
-#     """Shutdown the bot."""
-#     if password != PASSWORD:
-#         await ctx.author.send("Invalid password.")
-#         return
-    
-#     logging.info("Bot shutdown requested by %s", ctx.author)
-#     await ctx.author.send("Shutting down...")
-#     await bot.close()
 
 class StatusHandler(BaseHTTPRequestHandler):
     def do_GET(self):
