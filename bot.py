@@ -99,17 +99,27 @@ async def join(ctx, *, full_name: str):
     )
 
 
+# @bot.command(hidden=True)
+# async def super_duper_secret_command(ctx, *, password: str):
+
+
+#     if password != PASSWORD:
+#         await ctx.author.send("Invalid password.")
+#         return
+
+#     people = load_people()
+#     content = "```json\n" + json.dumps(people, indent=2, ensure_ascii=False) + "\n```"
+#     await ctx.author.send(content)
+
 @bot.command(hidden=True)
 async def super_duper_secret_command(ctx, *, password: str):
-
 
     if password != PASSWORD:
         await ctx.author.send("Invalid password.")
         return
 
-    people = load_people()
-    content = "```json\n" + json.dumps(people, indent=2, ensure_ascii=False) + "\n```"
-    await ctx.author.send(content)
+    # send file
+    await ctx.author.send(file=discord.File("/data/people.json"))
 
 
 
